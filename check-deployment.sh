@@ -38,8 +38,11 @@ if [ -n "$1" ]; then
     echo "Latest job ID: $JOB_ID"
     echo "Job status:"
     aws amplify get-job --app-id $APP_ID --branch-name $BRANCH_NAME --job-id $JOB_ID --profile $AWS_PROFILE --output json | jq -r '.job.summary.status'
+    
+    # Format the URL - replace slashes with hyphens for the subdomain
+    FORMATTED_BRANCH=$(echo $BRANCH_NAME | sed 's/\//-/g')
     echo ""
-    echo "Job URL: https://$BRANCH_NAME.$DOMAIN"
+    echo "Job URL: https://$FORMATTED_BRANCH.$DOMAIN"
   else
     echo "No jobs found for branch $BRANCH_NAME"
   fi
